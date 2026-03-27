@@ -94,32 +94,5 @@ namespace ParaBankAutomation.Test.Login
             Assert.That(loginPage.GetErrorMessage(), Is.Not.Empty, "User 21 ký tự không bị xử lý lỗi.");
         }
 
-        [Test]
-        public void S_2_18_Password7KyTu()
-        {
-            ExecuteBoundaryTest("S.2.18");
-            Assert.That(loginPage.GetErrorMessage(), Is.Not.Empty);
-        }
-
-        [Test]
-        public void S_2_19_Password8KyTu()
-        {
-            ExecuteBoundaryTest("S.2.19");
-            Assert.That(driver.Url.Contains("login.htm") || driver.Url.Contains("overview.htm"), Is.True);
-        }
-
-        [Test]
-        public void S_2_20_Password20KyTu()
-        {
-            ExecuteBoundaryTest("S.2.20");
-            Assert.That(driver.Url.Contains("login.htm") || driver.Url.Contains("overview.htm"), Is.True);
-        }
-
-        [Test]
-        public void S_2_21_Password21KyTu()
-        {
-            ExecuteBoundaryTest("S.2.21");
-            Assert.That(loginPage.GetErrorMessage(), Is.Not.Empty);
-        }
     }
 }

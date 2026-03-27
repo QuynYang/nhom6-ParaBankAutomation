@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
+using OpenQA.Selenium.Support.UI;
 
 namespace ParaBankAutomation.Pages
 {
@@ -91,9 +92,25 @@ namespace ParaBankAutomation.Pages
         {
             try
             {
-                return _driver.FindElement(_errorMessage).Text;
+                WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+
+                wait.Until(d => d.Url.Contains("login.htm"));
+
+                var errorElements = _driver.FindElements(By.CssSelector("p.error"));
+                if (errorElements.Count > 0 && !string.IsNullOrEmpty(errorElements[0].Text))
+                {
+                    return errorElements[0].Text;
+                }
+
+                var fallbackElements = _driver.FindElements(By.XPath("//h1[text()='Error!']/following-sibling::p"));
+                if (fallbackElements.Count > 0 && !string.IsNullOrEmpty(fallbackElements[0].Text))
+                {
+                    return fallbackElements[0].Text;
+                }
+
+                return string.Empty;
             }
-            catch (NoSuchElementException)
+            catch (Exception)
             {
                 return string.Empty;
             }

@@ -2,8 +2,9 @@
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using ParaBankAutomation.Pages;
+using OpenQA.Selenium.Support.UI;
 using ParaBankAutomation.Helpers;
+using ParaBankAutomation.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,7 +81,17 @@ namespace ParaBankAutomation.Test.Login
         public void S_2_7_LoginThanhCong()
         {
             ExecuteLoginFlow("S.2.7");
-            Assert.That(driver.Url.Contains("overview.htm"), Is.True, "Đăng nhập hợp lệ nhưng không chuyển đến Account Overview.");
+
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                wait.Until(d => d.Url.Contains("overview.htm"));
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
+
+            Assert.That(driver.Url.Contains("overview.htm"), Is.True, "Lỗi: Không chuyển đến Account Overview. (GỢI Ý: Có thể tài khoản quynhgiangtestf2 đã bị ParaBank tự động xóa do reset DB. Bạn hãy chạy lại kịch bản Đăng Ký để tạo lại tài khoản rồi test lại nhé!)");
         }
 
         [Test]
